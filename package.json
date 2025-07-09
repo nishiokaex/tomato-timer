@@ -1,5 +1,5 @@
 {
-  "name": "expo-starter",
+  "name": "tomato-timer",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -11,14 +11,23 @@
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-navigation/bottom-tabs": "^7.4.2",
     "@react-navigation/native": "^7.1.14",
     "@reduxjs/toolkit": "^2.8.2",
+    "axios": "^1.10.0",
     "expo": "~52.0.46",
+    "expo-notifications": "^0.31.4",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.60.0",
+    "react-i18next": "^15.6.0",
+    "react-icons": "^5.5.0",
     "react-native": "0.76.9",
-    "react-native-web": "~0.19.13"
+    "react-native-safe-area-context": "^5.5.1",
+    "react-native-screens": "^4.11.1",
+    "react-native-web": "~0.19.13",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

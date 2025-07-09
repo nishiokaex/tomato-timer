@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "トマトタイマー",
+    "welcome": "ようこそ"
+  },
+  "timer": {
+    "pomodoro": "ポモドーロ",
+    "shortBreak": "ショートブレイク",
+    "longBreak": "ロングブレイク",
+    "start": "開始",
+    "pause": "一時停止",
+    "resume": "再開",
+    "reset": "リセット",
+    "stop": "停止",
+    "completed": "完了",
+    "timeRemaining": "残り時間",
+    "session": "セッション",
+    "sessions": "セッション",
+    "minutes": "分",
+    "seconds": "秒",
+    "selectType": "タイマーの種類を選択",
+    "noTimer": "タイマーが設定されていません",
+    "changeTypeConfirm": "タイマーの種類を変更しますか？",
+    "changeTypeMessage": "実行中のタイマーは停止されます。",
+    "resetConfirm": "タイマーをリセットしますか？",
+    "resetMessage": "現在の進行状況は失われます。"
+  },
+  "settings": {
+    "title": "設定",
+    "language": "言語",
+    "pomodoroLength": "ポモドーロ時間",
+    "shortBreakLength": "ショートブレイク時間",
+    "longBreakLength": "ロングブレイク時間",
+    "notifications": "通知",
+    "sound": "音",
+    "vibration": "振動",
+    "autoStart": "自動開始",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "reset": "リセット"
+  },
+  "statistics": {
+    "title": "統計",
+    "today": "今日",
+    "thisWeek": "今週",
+    "thisMonth": "今月",
+    "completedPomodoros": "完了したポモドーロ",
+    "totalTime": "合計時間",
+    "averageTime": "平均時間",
+    "streak": "連続記録",
+    "bestStreak": "最高記録"
+  },
+  "notifications": {
+    "pomodoroCompleted": "ポモドーロが完了しました！",
+    "breakCompleted": "ブレイクが完了しました！",
+    "timeToWork": "作業時間です！",
+    "timeToBreak": "休憩時間です！"
+  },
+  "languages": {
+    "ja": "日本語",
+    "en": "English",
+    "zh": "中文（繁體）",
+    "de": "Deutsch",
+    "es": "Español"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "キャンセル",
+    "yes": "はい",
+    "no": "いいえ",
+    "confirm": "確認",
+    "error": "エラー",
+    "success": "成功",
+    "loading": "読み込み中...",
+    "retry": "再試行"
+  },
+  "error": {
+    "title": "エラー",
+    "default": "エラーが発生しました",
+    "network": "ネットワークエラーが発生しました",
+    "storage": "データの保存に失敗しました"
+  }
+}

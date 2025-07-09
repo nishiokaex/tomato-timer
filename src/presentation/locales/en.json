@@ -1,0 +1,83 @@
+{
+  "app": {
+    "title": "Tomato Timer",
+    "welcome": "Welcome"
+  },
+  "timer": {
+    "pomodoro": "Pomodoro",
+    "shortBreak": "Short Break",
+    "longBreak": "Long Break",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "reset": "Reset",
+    "stop": "Stop",
+    "completed": "Completed",
+    "timeRemaining": "Time Remaining",
+    "session": "Session",
+    "sessions": "Sessions",
+    "minutes": "min",
+    "seconds": "sec",
+    "selectType": "Select Timer Type",
+    "noTimer": "No timer set",
+    "changeTypeConfirm": "Change timer type?",
+    "changeTypeMessage": "Running timer will be stopped.",
+    "resetConfirm": "Reset timer?",
+    "resetMessage": "Current progress will be lost."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "pomodoroLength": "Pomodoro Length",
+    "shortBreakLength": "Short Break Length",
+    "longBreakLength": "Long Break Length",
+    "notifications": "Notifications",
+    "sound": "Sound",
+    "vibration": "Vibration",
+    "autoStart": "Auto Start",
+    "save": "Save",
+    "cancel": "Cancel",
+    "reset": "Reset"
+  },
+  "statistics": {
+    "title": "Statistics",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "thisMonth": "This Month",
+    "completedPomodoros": "Completed Pomodoros",
+    "totalTime": "Total Time",
+    "averageTime": "Average Time",
+    "streak": "Streak",
+    "bestStreak": "Best Streak"
+  },
+  "notifications": {
+    "pomodoroCompleted": "Pomodoro completed!",
+    "breakCompleted": "Break completed!",
+    "timeToWork": "Time to work!",
+    "timeToBreak": "Time for a break!"
+  },
+  "languages": {
+    "ja": "日本語",
+    "en": "English",
+    "zh": "中文（繁體）",
+    "de": "Deutsch",
+    "es": "Español"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "error": "Error",
+    "success": "Success",
+    "loading": "Loading...",
+    "retry": "Retry"
+  },
+  "error": {
+    "title": "Error",
+    "default": "An error occurred",
+    "network": "Network error occurred",
+    "storage": "Failed to save data"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "app": {
+    "title": "Temporizador Tomate",
+    "welcome": "Bienvenido"
+  },
+  "timer": {
+    "pomodoro": "Pomodoro",
+    "shortBreak": "Descanso Corto",
+    "longBreak": "Descanso Largo",
+    "start": "Iniciar",
+    "pause": "Pausar",
+    "resume": "Continuar",
+    "reset": "Reiniciar",
+    "stop": "Detener",
+    "completed": "Completado",
+    "timeRemaining": "Tiempo Restante",
+    "session": "Sesión",
+    "sessions": "Sesiones",
+    "minutes": "min",
+    "seconds": "seg"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "pomodoroLength": "Duración del Pomodoro",
+    "shortBreakLength": "Duración del Descanso Corto",
+    "longBreakLength": "Duración del Descanso Largo",
+    "notifications": "Notificaciones",
+    "sound": "Sonido",
+    "vibration": "Vibración",
+    "autoStart": "Inicio Automático",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "reset": "Reiniciar"
+  },
+  "statistics": {
+    "title": "Estadísticas",
+    "today": "Hoy",
+    "thisWeek": "Esta Semana",
+    "thisMonth": "Este Mes",
+    "completedPomodoros": "Pomodoros Completados",
+    "totalTime": "Tiempo Total",
+    "averageTime": "Tiempo Promedio",
+    "streak": "Racha",
+    "bestStreak": "Mejor Racha"
+  },
+  "notifications": {
+    "pomodoroCompleted": "¡Pomodoro completado!",
+    "breakCompleted": "¡Descanso completado!",
+    "timeToWork": "¡Hora de trabajar!",
+    "timeToBreak": "¡Hora del descanso!"
+  },
+  "languages": {
+    "ja": "日本語",
+    "en": "English",
+    "zh": "中文（繁體）",
+    "de": "Deutsch",
+    "es": "Español"
+  }
+}
