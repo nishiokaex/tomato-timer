@@ -1,4 +1,10 @@
 export class StorageRepository {
+  constructor() {
+    if (this.constructor === StorageRepository) {
+      throw new Error('StorageRepositoryは抽象クラスです');
+    }
+  }
+
   async saveSettings(settings) {
     throw new Error('StorageRepository.saveSettings must be implemented');
   }

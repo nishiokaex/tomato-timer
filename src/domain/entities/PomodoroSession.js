@@ -23,7 +23,9 @@ export class PomodoroSession {
   }
 
   getFormattedDuration() {
-    const duration = this.actualDuration || this.duration;
+    const duration = (this.actualDuration !== null && this.actualDuration !== undefined) 
+      ? this.actualDuration 
+      : this.duration;
     const minutes = Math.floor(duration / 60);
     const seconds = duration % 60;
     return {
@@ -45,9 +47,15 @@ export class PomodoroSession {
   isThisWeek() {
     const today = new Date();
     const sessionDate = new Date(this.date);
-    const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay()));
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
     startOfWeek.setHours(0, 0, 0, 0);
-    return sessionDate >= startOfWeek;
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+    
+    return sessionDate >= startOfWeek && sessionDate <= endOfWeek;
   }
 
   isThisMonth() {

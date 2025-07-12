@@ -6,7 +6,10 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
@@ -31,7 +34,39 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@playwright/mcp": "^0.0.29"
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@playwright/mcp": "^0.0.29",
+    "@testing-library/react-native": "^12.7.2",
+    "babel-jest": "^30.0.4",
+    "jest": "^30.0.4",
+    "react-test-renderer": "^18.3.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web"
+    },
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.(js|jsx)",
+      "**/*.(test|spec).(js|jsx)"
+    ],
+    "moduleFileExtensions": ["js", "jsx", "json"],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "App.js",
+      "index.js",
+      "!src/**/__tests__/**",
+      "!src/**/index.js",
+      "!node_modules/**",
+      "!coverage/**"
+    ]
   },
   "private": true
 }

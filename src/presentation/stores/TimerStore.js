@@ -27,6 +27,10 @@ class TimerStore {
     this.saveData = this.saveData.bind(this);
     this.setError = this.setError.bind(this);
     this.clearError = this.clearError.bind(this);
+    this.startInterval = this.startInterval.bind(this);
+    this.stopInterval = this.stopInterval.bind(this);
+    this.onTimerComplete = this.onTimerComplete.bind(this);
+    this.cleanup = this.cleanup.bind(this);
   }
 
   // タイマー関連メソッド
@@ -331,7 +335,9 @@ class TimerStore {
 
   // クリーンアップ
   cleanup() {
-    this.stopInterval();
+    if (this.stopInterval && typeof this.stopInterval === 'function') {
+      this.stopInterval();
+    }
   }
 }
 

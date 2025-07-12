@@ -18,6 +18,9 @@ export class AsyncStorageRepository extends StorageRepository {
 
   async saveSettings(settings) {
     try {
+      if (!settings || typeof settings.toJSON !== 'function') {
+        throw new Error('Invalid settings object');
+      }
       const data = JSON.stringify(settings.toJSON());
       await AsyncStorage.setItem(this.STORAGE_KEYS.SETTINGS, data);
       return true;
@@ -30,9 +33,11 @@ export class AsyncStorageRepository extends StorageRepository {
   async loadSettings() {
     try {
       const data = await AsyncStorage.getItem(this.STORAGE_KEYS.SETTINGS);
-      if (data) {
+      if (data && data !== 'null' && data !== 'undefined') {
         const parsed = JSON.parse(data);
-        return Settings.fromJSON(parsed);
+        if (parsed && typeof parsed === 'object') {
+          return Settings.fromJSON(parsed);
+        }
       }
       return new Settings();
     } catch (error) {
@@ -55,9 +60,11 @@ export class AsyncStorageRepository extends StorageRepository {
   async loadSessions() {
     try {
       const data = await AsyncStorage.getItem(this.STORAGE_KEYS.SESSIONS);
-      if (data) {
+      if (data && data !== 'null' && data !== 'undefined') {
         const parsed = JSON.parse(data);
-        return parsed.map(sessionData => PomodoroSession.fromJSON(sessionData));
+        if (Array.isArray(parsed)) {
+          return parsed.map(sessionData => PomodoroSession.fromJSON(sessionData));
+        }
       }
       return [];
     } catch (error) {
@@ -84,9 +91,11 @@ export class AsyncStorageRepository extends StorageRepository {
   async loadTimer() {
     try {
       const data = await AsyncStorage.getItem(this.STORAGE_KEYS.TIMER);
-      if (data) {
+      if (data && data !== 'null' && data !== 'undefined') {
         const parsed = JSON.parse(data);
-        return Timer.fromJSON(parsed);
+        if (parsed && typeof parsed === 'object') {
+          return Timer.fromJSON(parsed);
+        }
       }
       return null;
     } catch (error) {
@@ -198,19 +207,25 @@ export class AsyncStorageRepository extends StorageRepository {
       const data = {};
       
       results.forEach(([key, value]) => {
-        if (value) {
+        if (value && value !== 'null' && value !== 'undefined') {
           try {
             const parsed = JSON.parse(value);
-            switch (key) {
-              case this.STORAGE_KEYS.SETTINGS:
-                data.settings = Settings.fromJSON(parsed);
-                break;
-              case this.STORAGE_KEYS.SESSIONS:
-                data.sessions = Array.isArray(parsed) ? parsed.map(s => PomodoroSession.fromJSON(s)) : [];
-                break;
-              case this.STORAGE_KEYS.TIMER:
-                data.timer = Timer.fromJSON(parsed);
-                break;
+            if (parsed !== null && parsed !== undefined) {
+              switch (key) {
+                case this.STORAGE_KEYS.SETTINGS:
+                  if (typeof parsed === 'object') {
+                    data.settings = Settings.fromJSON(parsed);
+                  }
+                  break;
+                case this.STORAGE_KEYS.SESSIONS:
+                  data.sessions = Array.isArray(parsed) ? parsed.map(s => PomodoroSession.fromJSON(s)) : [];
+                  break;
+                case this.STORAGE_KEYS.TIMER:
+                  if (typeof parsed === 'object') {
+                    data.timer = Timer.fromJSON(parsed);
+                  }
+                  break;
+              }
             }
           } catch (parseError) {
             console.error(`パース エラー for ${key}:`, parseError);

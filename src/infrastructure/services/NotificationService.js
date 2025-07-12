@@ -6,36 +6,51 @@ export class NotificationService {
     this.isInitialized = false;
     this.permissions = null;
     this.notificationToken = null;
-    
-    // 通知の表示設定
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }),
-    });
+    this.handlerSet = false;
   }
 
   async initialize() {
     try {
       if (this.isInitialized) return true;
 
+      // 通知ハンドラーの設定
+      if (!this.handlerSet) {
+        try {
+          Notifications.setNotificationHandler({
+            handleNotification: async () => ({
+              shouldShowAlert: true,
+              shouldPlaySound: true,
+              shouldSetBadge: false,
+            }),
+          });
+          this.handlerSet = true;
+        } catch (error) {
+          console.error('通知ハンドラーの設定に失敗しました:', error);
+        }
+      }
+
       // 通知権限の確認・取得
       const permission = await this.requestPermissions();
       if (!permission) {
         console.log('通知権限が拒否されました');
-        return false;
+        // 権限がなくても初期化は成功とする
+        this.isInitialized = true;
+        return true;
       }
 
       // プッシュ通知トークンの取得（必要に応じて）
       if (Platform.OS !== 'web') {
         try {
-          const token = await Notifications.getExpoPushTokenAsync();
-          this.notificationToken = token.data;
-          console.log('プッシュ通知トークン:', this.notificationToken);
+          const token = await Notifications.getExpoPushTokenAsync({
+            projectId: undefined // プロジェクトIDがない場合のフォールバック
+          });
+          if (token && token.data) {
+            this.notificationToken = token.data;
+            console.log('プッシュ通知トークン:', this.notificationToken);
+          }
         } catch (error) {
           console.log('プッシュ通知トークンの取得に失敗しました:', error);
+          // トークン取得に失敗しても初期化は継続
         }
       }
 
@@ -43,6 +58,8 @@ export class NotificationService {
       return true;
     } catch (error) {
       console.error('通知サービスの初期化に失敗しました:', error);
+      // 初期化に失敗してもアプリを停止させない
+      this.isInitialized = true;
       return false;
     }
   }
@@ -99,8 +116,10 @@ export class NotificationService {
         await Notifications.cancelScheduledNotificationAsync(notificationId);
         console.log('通知がキャンセルされました:', notificationId);
       }
+      return true;
     } catch (error) {
       console.error('通知のキャンセルに失敗しました:', error);
+      return false;
     }
   }
 
@@ -151,7 +170,12 @@ export class NotificationService {
   playNotificationSound() {
     if (Platform.OS === 'web') {
       try {
-        // Web Audio APIを使用してビープ音を生成
+        // Web Audio APIのサポートをチェック
+        if (typeof window === 'undefined' || !window.AudioContext && !window.webkitAudioContext) {
+          console.log('Web Audio APIがサポートされていません');
+          return;
+        }
+
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
@@ -173,8 +197,13 @@ export class NotificationService {
 
   // バイブレーション（モバイル版のみ）
   vibrate() {
-    if (Platform.OS !== 'web' && 'vibrate' in navigator) {
-      navigator.vibrate([200, 100, 200]);
+    try {
+      if (Platform.OS !== 'web' && typeof navigator !== 'undefined' && 
+          'vibrate' in navigator && typeof navigator.vibrate === 'function') {
+        navigator.vibrate([200, 100, 200]);
+      }
+    } catch (error) {
+      console.log('バイブレーションの実行に失敗しました:', error);
     }
   }
 
@@ -182,7 +211,7 @@ export class NotificationService {
   async showCompleteNotification(timerType, settings, t) {
     if (settings.notifications.enabled) {
       // 通知の表示
-      await this.sendTimerCompleteNotification(timerType, t);
+      const notificationId = await this.sendTimerCompleteNotification(timerType, t);
       
       // サウンド再生
       if (settings.notifications.sound) {
@@ -193,7 +222,10 @@ export class NotificationService {
       if (settings.notifications.vibration) {
         this.vibrate();
       }
+      
+      return notificationId;
     }
+    return undefined;
   }
 
   // 通知履歴の取得

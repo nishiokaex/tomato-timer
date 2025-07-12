@@ -29,7 +29,9 @@ export class StorageService {
       return await this.repository.loadSettings();
     } catch (error) {
       console.error('設定の読み込みに失敗しました:', error);
-      throw error;
+      // フォールバックとしてデフォルト設定を返す
+      const { Settings } = await import('../../domain/entities/Settings');
+      return new Settings();
     }
   }
 
@@ -47,7 +49,8 @@ export class StorageService {
       return await this.repository.loadSessions();
     } catch (error) {
       console.error('セッションの読み込みに失敗しました:', error);
-      throw error;
+      // フォールバックとして空の配列を返す
+      return [];
     }
   }
 
@@ -65,7 +68,8 @@ export class StorageService {
       return await this.repository.loadTimer();
     } catch (error) {
       console.error('タイマーの読み込みに失敗しました:', error);
-      throw error;
+      // フォールバックとしてnullを返す
+      return null;
     }
   }
 
@@ -83,7 +87,13 @@ export class StorageService {
       return await this.repository.loadAll();
     } catch (error) {
       console.error('全データの読み込みに失敗しました:', error);
-      throw error;
+      // フォールバックとしてデフォルトデータを返す
+      const { Settings } = await import('../../domain/entities/Settings');
+      return {
+        settings: new Settings(),
+        sessions: [],
+        timer: null
+      };
     }
   }
 
@@ -114,8 +124,12 @@ export class StorageService {
 
   async importData(importedData) {
     try {
-      if (!importedData || !importedData.version) {
+      if (!importedData || typeof importedData !== 'object') {
         throw new Error('無効なデータ形式です');
+      }
+
+      if (!importedData.version || typeof importedData.version !== 'number') {
+        throw new Error('バージョン情報が無効です');
       }
 
       // バージョンチェック
@@ -126,16 +140,22 @@ export class StorageService {
       // データの復元
       const { settings, sessions, timer } = importedData;
       
-      if (settings) {
-        await this.saveSettings(settings);
+      if (settings && typeof settings === 'object') {
+        const { Settings } = await import('../../domain/entities/Settings');
+        const settingsInstance = new Settings(settings);
+        await this.saveSettings(settingsInstance);
       }
       
       if (sessions && Array.isArray(sessions)) {
-        await this.saveSessions(sessions);
+        const { PomodoroSession } = await import('../../domain/entities/PomodoroSession');
+        const sessionInstances = sessions.map(s => PomodoroSession.fromJSON(s));
+        await this.saveSessions(sessionInstances);
       }
       
-      if (timer) {
-        await this.saveTimer(timer);
+      if (timer && typeof timer === 'object') {
+        const { Timer } = await import('../../domain/entities/Timer');
+        const timerInstance = Timer.fromJSON(timer);
+        await this.saveTimer(timerInstance);
       }
 
       return true;

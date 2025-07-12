@@ -34,7 +34,7 @@ export default function App() {
     };
 
     initializeApp();
-  }, [loadData, setError]);
+  }, []); // 初期化は一度だけ実行
 
   return (
     <ErrorBoundary>
