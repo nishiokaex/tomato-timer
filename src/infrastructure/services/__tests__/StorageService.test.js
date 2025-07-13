@@ -47,6 +47,8 @@ describe('StorageService', () => {
     });
 
     test('エラーが発生した場合のフォールバック', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       // AsyncStorageをエラーを投げるようにモック
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.getItem.mockRejectedValueOnce(new Error('Storage error'));
@@ -56,6 +58,8 @@ describe('StorageService', () => {
       expect(result.settings).toBeInstanceOf(Settings);
       expect(result.sessions).toEqual([]);
       expect(result.timer).toBeNull();
+      
+      consoleSpy.mockRestore();
     });
   });
 
@@ -81,12 +85,16 @@ describe('StorageService', () => {
     });
 
     test('エラー時はデフォルト設定を返す', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.getItem.mockRejectedValueOnce(new Error('Error'));
 
       const result = await storageService.loadSettings();
 
       expect(result).toBeInstanceOf(Settings);
+      
+      consoleSpy.mockRestore();
     });
   });
 
@@ -117,12 +125,16 @@ describe('StorageService', () => {
     });
 
     test('エラー時は空配列を返す', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.getItem.mockRejectedValueOnce(new Error('Error'));
 
       const result = await storageService.loadSessions();
 
       expect(result).toEqual([]);
+      
+      consoleSpy.mockRestore();
     });
   });
 
@@ -150,12 +162,16 @@ describe('StorageService', () => {
     });
 
     test('エラー時はnullを返す', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.getItem.mockRejectedValueOnce(new Error('Error'));
 
       const result = await storageService.loadTimer();
 
       expect(result).toBeNull();
+      
+      consoleSpy.mockRestore();
     });
   });
 
@@ -167,10 +183,14 @@ describe('StorageService', () => {
     });
 
     test('エラーが発生した場合', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.multiRemove.mockRejectedValueOnce(new Error('Clear error'));
 
       await expect(storageService.clearAll()).rejects.toThrow('Clear error');
+      
+      consoleSpy.mockRestore();
     });
   });
 });

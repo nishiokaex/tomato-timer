@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react-native';
 import App from '../App';
 
 // useTimerStoreのモック
@@ -26,6 +27,16 @@ jest.mock('../src/infrastructure/services/NotificationService', () => ({
   getNotificationService: () => ({
     initialize: jest.fn(() => Promise.resolve())
   })
+}));
+
+// React Nativeのモック
+jest.mock('react-native', () => ({
+  View: 'View',
+  Text: 'Text',
+  StyleSheet: {
+    create: (styles) => styles,
+  },
+  StatusBar: 'StatusBar',
 }));
 
 jest.mock('../src/presentation/components/ErrorBoundary', () => ({
@@ -72,24 +83,28 @@ describe('App', () => {
   });
 
   test('初期化エラー時にエラーハンドリングが動作する', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+    
     mockLoadData.mockRejectedValueOnce(new Error('Load error'));
     
-    const app = App();
+    render(<App />);
     
     // useEffectが実行されるまで少し待つ
     await new Promise(resolve => setTimeout(resolve, 10));
     
     expect(mockSetError).toHaveBeenCalledWith('アプリの初期化に失敗しました');
-    expect(console.error).toHaveBeenCalledWith(
+    expect(consoleSpy).toHaveBeenCalledWith(
       'アプリの初期化に失敗しました:',
       expect.any(Error)
     );
+    
+    consoleSpy.mockRestore();
   });
 
   test('ストレージサービスの初期化が呼ばれる', () => {
     const storageService = require('../src/infrastructure/services/StorageService');
     
-    App();
+    render(<App />);
     
     expect(storageService.getStorageService).toBeDefined();
   });
@@ -97,13 +112,13 @@ describe('App', () => {
   test('通知サービスの初期化が呼ばれる', () => {
     const notificationService = require('../src/infrastructure/services/NotificationService');
     
-    App();
+    render(<App />);
     
     expect(notificationService.getNotificationService).toBeDefined();
   });
 
   test('スタイルが正しく定義されている', () => {
-    const app = App();
-    expect(app).toBeDefined();
+    const { container } = render(<App />);
+    expect(container).toBeDefined();
   });
 });

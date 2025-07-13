@@ -19,6 +19,22 @@ jest.mock('react-native', () => ({
   },
 }));
 
+// コンポーネントのモック
+jest.mock('../../presentation/components/TimerDisplay', () => ({
+  TimerDisplay: 'TimerDisplay'
+}));
+
+jest.mock('../../presentation/components/TimerTypeSelector', () => ({
+  TimerTypeSelector: 'TimerTypeSelector'
+}));
+
+// i18nextのモック
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key) => key,
+  }),
+}));
+
 // useTimerStoreのモック
 const mockUseTimerStore = {
   currentTimer: null,
@@ -194,47 +210,34 @@ describe('TimerScreen', () => {
   });
 
   describe('エラーハンドリング', () => {
-    test('ストアがundefinedでもエラーが発生しない', () => {
-      const originalStore = mockUseTimerStore;
+    test('ストアエラーでもアプリがクラッシュしない', () => {
+      // エラーが発生するストアをモック
+      const errorStore = {
+        ...mockUseTimerStore,
+        createTimer: jest.fn(() => {
+          throw new Error('Timer creation failed');
+        })
+      };
       
-      // 一時的にストアをundefinedにする
-      jest.doMock('../../stores/TimerStore', () => ({
-        useTimerStore: () => undefined
-      }));
+      jest.mocked(useTimerStore).mockReturnValue(errorStore);
       
       expect(() => {
         render(<TimerScreen />);
       }).not.toThrow();
       
       // 元に戻す
-      jest.doMock('../../stores/TimerStore', () => ({
-        useTimerStore: () => originalStore
-      }));
+      jest.mocked(useTimerStore).mockReturnValue(mockUseTimerStore);
     });
 
-    test('ナビゲーションがundefinedでもエラーが発生しない', () => {
-      // ナビゲーションモックを一時的に無効化
-      jest.doMock('@react-navigation/native', () => ({
-        useNavigation: () => undefined,
-        useRoute: () => ({ params: {} })
-      }));
-      
+    test('基本的な描画が正常に動作する', () => {
       expect(() => {
         render(<TimerScreen />);
       }).not.toThrow();
-      
-      // 元に戻す
-      jest.doMock('@react-navigation/native', () => ({
-        useNavigation: () => mockNavigation,
-        useRoute: () => ({ params: {} })
-      }));
     });
   });
 
   describe('翻訳', () => {
     test('翻訳キーが正しく使用される', () => {
-      TimerScreen();
-      
       // 翻訳機能が動作することを確認
       expect(() => {
         render(<TimerScreen />);

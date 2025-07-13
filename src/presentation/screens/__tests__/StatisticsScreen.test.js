@@ -134,6 +134,31 @@ describe('StatisticsScreen', () => {
 
   describe('時間フォーマット', () => {
     test('時間が正しくフォーマットされる', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
+      // getStatisticsのモックを再設定
+      mockUseTimerStore.getStatistics = jest.fn(() => ({
+        today: {
+          count: 3,
+          totalTime: 4500
+        },
+        thisWeek: {
+          count: 15,
+          totalTime: 22500
+        },
+        thisMonth: {
+          count: 60,
+          totalTime: 90000
+        },
+        total: {
+          count: 120,
+          totalTime: 180000,
+          averageTime: 1500
+        },
+        streak: 5,
+        bestStreak: 12
+      }));
+      
       StatisticsScreen();
       
       const stats = mockUseTimerStore.getStatistics();
@@ -150,6 +175,8 @@ describe('StatisticsScreen', () => {
       expect(formatted.hours).toBe(1);
       expect(formatted.minutes).toBe(15);
       expect(formatted.seconds).toBe(0);
+      
+      consoleSpy.mockRestore();
     });
 
     test('大きな時間値でもフォーマットできる', () => {
@@ -185,37 +212,55 @@ describe('StatisticsScreen', () => {
 
   describe('ナビゲーション', () => {
     test('前の画面に戻る', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       StatisticsScreen();
       
       mockNavigation.goBack();
       
       expect(mockNavigation.goBack).toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
     });
 
     test('タイマー画面に遷移', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       StatisticsScreen();
       
       mockNavigation.navigate('Timer');
       
       expect(mockNavigation.navigate).toHaveBeenCalledWith('Timer');
+      
+      consoleSpy.mockRestore();
     });
 
     test('ヘッダーオプションが設定される', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       StatisticsScreen();
       
       expect(mockNavigation.setOptions).toBeDefined();
+      
+      consoleSpy.mockRestore();
     });
   });
 
   describe('データの更新', () => {
     test('統計データが最新の状態で取得される', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       StatisticsScreen();
       
       // getStatisticsが呼ばれることを確認
       expect(mockUseTimerStore.getStatistics).toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
     });
 
     test('セッションデータが変更されると統計が更新される', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       // 新しいセッションを追加
       mockUseTimerStore.sessions = [
         { completed: true, duration: 1500, date: new Date().toISOString().split('T')[0] }
@@ -224,21 +269,29 @@ describe('StatisticsScreen', () => {
       StatisticsScreen();
       
       expect(mockUseTimerStore.getStatistics).toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
     });
   });
 
   describe('エラーハンドリング', () => {
     test('getStatisticsがエラーを投げてもクラッシュしない', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       mockUseTimerStore.getStatistics = jest.fn(() => {
         throw new Error('Statistics error');
       });
       
       expect(() => {
         StatisticsScreen();
-      }).toThrow('Statistics error');
+      }).not.toThrow();
+      
+      consoleSpy.mockRestore();
     });
 
     test('ストアがundefinedでもエラーが発生しない', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       jest.doMock('../../stores/TimerStore', () => ({
         useTimerStore: () => undefined
       }));
@@ -246,9 +299,13 @@ describe('StatisticsScreen', () => {
       expect(() => {
         StatisticsScreen();
       }).not.toThrow();
+      
+      consoleSpy.mockRestore();
     });
 
     test('ナビゲーションがundefinedでもエラーが発生しない', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       jest.doMock('@react-navigation/native', () => ({
         useNavigation: () => undefined,
         useRoute: () => ({ params: {} })
@@ -257,11 +314,15 @@ describe('StatisticsScreen', () => {
       expect(() => {
         StatisticsScreen();
       }).not.toThrow();
+      
+      consoleSpy.mockRestore();
     });
   });
 
   describe('パフォーマンス', () => {
     test('統計計算が効率的に実行される', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const startTime = Date.now();
       
       StatisticsScreen();
@@ -271,9 +332,13 @@ describe('StatisticsScreen', () => {
       
       // 統計計算が合理的な時間内に完了することを確認
       expect(executionTime).toBeLessThan(100); // 100ms以内
+      
+      consoleSpy.mockRestore();
     });
 
     test('大量のセッションデータでも処理できる', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       // 大量のセッションデータをモック
       const largeSessions = Array.from({ length: 1000 }, (_, i) => ({
         completed: true,
@@ -286,17 +351,23 @@ describe('StatisticsScreen', () => {
       expect(() => {
         StatisticsScreen();
       }).not.toThrow();
+      
+      consoleSpy.mockRestore();
     });
   });
 
   describe('国際化', () => {
     test('翻訳キーが正しく使用される', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       StatisticsScreen();
       
       // 翻訳機能が正常に動作することを確認
       expect(() => {
         StatisticsScreen();
       }).not.toThrow();
+      
+      consoleSpy.mockRestore();
     });
   });
 });

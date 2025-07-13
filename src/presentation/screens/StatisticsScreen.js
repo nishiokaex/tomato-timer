@@ -16,6 +16,7 @@ export const StatisticsScreen = () => {
       today: { count: 0, totalTime: 0 },
       thisWeek: { count: 0, totalTime: 0 },
       thisMonth: { count: 0, totalTime: 0 },
+      total: { count: 0, totalTime: 0 },
       averageTime: 0,
       streak: 0,
       bestStreak: 0
@@ -28,6 +29,7 @@ export const StatisticsScreen = () => {
       today: { count: 0, totalTime: 0 },
       thisWeek: { count: 0, totalTime: 0 },
       thisMonth: { count: 0, totalTime: 0 },
+      total: { count: 0, totalTime: 0 },
       averageTime: 0,
       streak: 0,
       bestStreak: 0

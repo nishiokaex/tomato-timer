@@ -1,5 +1,15 @@
 import { getNotificationService } from '../NotificationService';
 
+// expo-notificationsのモック
+jest.mock('expo-notifications', () => ({
+  getPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  requestPermissionsAsync: jest.fn().mockResolvedValue({ status: 'granted' }),
+  setNotificationHandler: jest.fn(),
+  scheduleNotificationAsync: jest.fn().mockResolvedValue('notification-id'),
+  cancelScheduledNotificationAsync: jest.fn(),
+  cancelAllScheduledNotificationsAsync: jest.fn(),
+  getExpoPushTokenAsync: jest.fn().mockResolvedValue({ data: 'expo-push-token' }),
+}));
 
 // Platformのモック
 jest.mock('react-native', () => ({
@@ -25,6 +35,7 @@ describe('NotificationService', () => {
 
     test('通知許可が拒否された場合', async () => {
       const mockNotifications = require('expo-notifications');
+      mockNotifications.getPermissionsAsync.mockResolvedValueOnce({ status: 'denied' });
       mockNotifications.requestPermissionsAsync.mockResolvedValueOnce({ status: 'denied' });
       
       const result = await notificationService.requestPermissions();
@@ -33,12 +44,16 @@ describe('NotificationService', () => {
     });
 
     test('権限要求でエラーが発生した場合', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockNotifications = require('expo-notifications');
-      mockNotifications.requestPermissionsAsync.mockRejectedValueOnce(new Error('Permission error'));
+      mockNotifications.getPermissionsAsync.mockRejectedValueOnce(new Error('Permission error'));
       
       const result = await notificationService.requestPermissions();
       
       expect(result).toBe(false);
+      
+      consoleSpy.mockRestore();
     });
   });
 

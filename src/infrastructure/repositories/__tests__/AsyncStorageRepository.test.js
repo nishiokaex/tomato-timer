@@ -232,10 +232,14 @@ describe('AsyncStorageRepository', () => {
     });
 
     test('AsyncStorageエラー時にエラーを投げる', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
+      
       const mockAsyncStorage = require('@react-native-async-storage/async-storage');
       mockAsyncStorage.multiRemove.mockRejectedValueOnce(new Error('Clear error'));
       
       await expect(repository.clearAll()).rejects.toThrow('Clear error');
+      
+      consoleSpy.mockRestore();
     });
   });
 
