@@ -1,3 +1,6 @@
+// このテストではモックされたi18nではなく、実際のi18nを使用
+jest.unmock('react-i18next');
+
 // i18nのテスト
 describe('i18n', () => {
   beforeEach(() => {
@@ -6,6 +9,10 @@ describe('i18n', () => {
 
   describe('初期化', () => {
     test('i18nが正常に初期化される', async () => {
+      // react-i18nextが利用可能であることを確認
+      const { initReactI18next } = require('react-i18next');
+      expect(initReactI18next).toBeDefined();
+      
       expect(() => {
         require('../i18n');
       }).not.toThrow();

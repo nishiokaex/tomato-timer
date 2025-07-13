@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react-native';
 import { TimerScreen } from '../TimerScreen';
 
 // React Nativeコンポーネントのモック
@@ -12,6 +13,9 @@ jest.mock('react-native', () => ({
   },
   Platform: {
     OS: 'web',
+  },
+  Alert: {
+    alert: jest.fn(),
   },
 }));
 
@@ -30,25 +34,30 @@ jest.mock('../../stores/TimerStore', () => ({
   useTimerStore: () => mockUseTimerStore
 }));
 
-// useTranslationのモック
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { changeLanguage: jest.fn() }
-  })
+// コンポーネントのモック
+jest.mock('../../components/TimerDisplay', () => ({
+  TimerDisplay: () => 'TimerDisplay'
 }));
 
-// React Navigationのモック
+jest.mock('../../components/TimerTypeSelector', () => ({
+  TimerTypeSelector: () => 'TimerTypeSelector'
+}));
+
+jest.mock('../../../domain/entities/Timer', () => ({
+  TimerType: {
+    POMODORO: 'pomodoro',
+    SHORT_BREAK: 'shortBreak',
+    LONG_BREAK: 'longBreak'
+  }
+}));
+
+
+// テスト固有のナビゲーションモック
 const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
   setOptions: jest.fn()
 };
-
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => mockNavigation,
-  useRoute: () => ({ params: {} })
-}));
 
 describe('TimerScreen', () => {
   beforeEach(() => {
@@ -58,7 +67,7 @@ describe('TimerScreen', () => {
   describe('基本レンダリング', () => {
     test('スクリーンが正常にレンダリングされる', () => {
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
     });
 
@@ -66,7 +75,7 @@ describe('TimerScreen', () => {
       mockUseTimerStore.currentTimer = null;
       
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
     });
 
@@ -82,7 +91,7 @@ describe('TimerScreen', () => {
       mockUseTimerStore.currentTimer = mockTimer;
       
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
     });
   });
@@ -179,7 +188,7 @@ describe('TimerScreen', () => {
       mockUseTimerStore.currentTimer = mockTimer;
       
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
     });
   });
@@ -194,7 +203,7 @@ describe('TimerScreen', () => {
       }));
       
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
       
       // 元に戻す
@@ -211,7 +220,7 @@ describe('TimerScreen', () => {
       }));
       
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
       
       // 元に戻す
@@ -228,7 +237,7 @@ describe('TimerScreen', () => {
       
       // 翻訳機能が動作することを確認
       expect(() => {
-        TimerScreen();
+        render(<TimerScreen />);
       }).not.toThrow();
     });
   });

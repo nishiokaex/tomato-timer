@@ -5,8 +5,8 @@
   },
   "timer": {
     "pomodoro": "ポモドーロ",
-    "shortBreak": "ショートブレイク",
-    "longBreak": "ロングブレイク",
+    "shortBreak": "短い休憩",
+    "longBreak": "長い休憩",
     "start": "開始",
     "pause": "一時停止",
     "resume": "再開",

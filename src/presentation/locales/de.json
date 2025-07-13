@@ -17,7 +17,13 @@
     "session": "Sitzung",
     "sessions": "Sitzungen",
     "minutes": "Min",
-    "seconds": "Sek"
+    "seconds": "Sek",
+    "selectType": "Timer-Typ wählen",
+    "noTimer": "Kein Timer eingestellt",
+    "changeTypeConfirm": "Timer-Typ ändern?",
+    "changeTypeMessage": "Laufender Timer wird gestoppt.",
+    "resetConfirm": "Timer zurücksetzen?",
+    "resetMessage": "Aktueller Fortschritt geht verloren."
   },
   "settings": {
     "title": "Einstellungen",
@@ -56,5 +62,22 @@
     "zh": "中文（繁體）",
     "de": "Deutsch",
     "es": "Español"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "yes": "Ja",
+    "no": "Nein",
+    "confirm": "Bestätigen",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "loading": "Laden...",
+    "retry": "Wiederholen"
+  },
+  "error": {
+    "title": "Fehler",
+    "default": "Ein Fehler ist aufgetreten",
+    "network": "Netzwerkfehler aufgetreten",
+    "storage": "Speichern der Daten fehlgeschlagen"
   }
 }

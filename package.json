@@ -34,30 +34,21 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@babel/preset-env": "^7.28.0",
-    "@babel/preset-react": "^7.27.1",
     "@playwright/mcp": "^0.0.29",
-    "@testing-library/react-native": "^12.7.2",
-    "babel-jest": "^30.0.4",
-    "jest": "^30.0.4",
+    "@testing-library/react-native": "^12.9.0",
+    "jest": "~29.7.0",
+    "jest-expo": "~52.0.6",
     "react-test-renderer": "^18.3.1"
   },
   "jest": {
-    "testEnvironment": "node",
+    "preset": "jest-expo",
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    },
     "testMatch": [
       "**/__tests__/**/*.(js|jsx)",
       "**/*.(test|spec).(js|jsx)"
     ],
-    "moduleFileExtensions": ["js", "jsx", "json"],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
       "App.js",
@@ -66,6 +57,9 @@
       "!src/**/index.js",
       "!node_modules/**",
       "!coverage/**"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
   },
   "private": true

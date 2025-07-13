@@ -17,7 +17,13 @@
     "session": "Sesión",
     "sessions": "Sesiones",
     "minutes": "min",
-    "seconds": "seg"
+    "seconds": "seg",
+    "selectType": "Seleccionar Tipo de Temporizador",
+    "noTimer": "No hay temporizador configurado",
+    "changeTypeConfirm": "¿Cambiar tipo de temporizador?",
+    "changeTypeMessage": "El temporizador en ejecución se detendrá.",
+    "resetConfirm": "¿Reiniciar temporizador?",
+    "resetMessage": "Se perderá el progreso actual."
   },
   "settings": {
     "title": "Configuración",
@@ -56,5 +62,22 @@
     "zh": "中文（繁體）",
     "de": "Deutsch",
     "es": "Español"
+  },
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "error": "Error",
+    "success": "Éxito",
+    "loading": "Cargando...",
+    "retry": "Reintentar"
+  },
+  "error": {
+    "title": "Error",
+    "default": "Ocurrió un error",
+    "network": "Ocurrió un error de red",
+    "storage": "Fallo al guardar datos"
   }
 }

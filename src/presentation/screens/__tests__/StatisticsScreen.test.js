@@ -1,20 +1,6 @@
 import React from 'react';
 import { StatisticsScreen } from '../StatisticsScreen';
 
-// React Nativeコンポーネントのモック
-jest.mock('react-native', () => ({
-  View: 'View',
-  Text: 'Text',
-  ScrollView: 'ScrollView',
-  TouchableOpacity: 'TouchableOpacity',
-  StyleSheet: {
-    create: (styles) => styles,
-  },
-  Platform: {
-    OS: 'web',
-  },
-}));
-
 // useTimerStoreのモック
 const mockUseTimerStore = {
   getStatistics: jest.fn(() => ({
@@ -45,21 +31,14 @@ jest.mock('../../stores/TimerStore', () => ({
   useTimerStore: () => mockUseTimerStore
 }));
 
-// useTranslationのモック
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { changeLanguage: jest.fn() }
-  })
-}));
-
-// React Navigationのモック
+// 個別テスト用のナビゲーションモック
 const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
   setOptions: jest.fn()
 };
 
+// このテスト用のナビゲーションオーバーライド
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => mockNavigation,
   useRoute: () => ({ params: {} })

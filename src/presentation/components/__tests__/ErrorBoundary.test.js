@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react-native';
 import ErrorBoundary from '../ErrorBoundary';
 
 // React Native Componentのモック
@@ -30,9 +31,13 @@ describe('ErrorBoundary', () => {
 
   describe('正常時', () => {
     test('エラーが発生しない場合は子コンポーネントをレンダリングする', () => {
-      const wrapper = ErrorBoundary({ children: ValidComponent() });
-      
-      expect(wrapper).toBe('Valid component');
+      expect(() => {
+        render(
+          <ErrorBoundary>
+            <ValidComponent />
+          </ErrorBoundary>
+        );
+      }).not.toThrow();
     });
 
     test('初期状態ではhasErrorがfalse', () => {

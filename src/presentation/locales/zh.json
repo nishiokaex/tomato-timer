@@ -17,7 +17,13 @@
     "session": "回合",
     "sessions": "回合",
     "minutes": "分鐘",
-    "seconds": "秒"
+    "seconds": "秒",
+    "selectType": "選擇計時器類型",
+    "noTimer": "未設定計時器",
+    "changeTypeConfirm": "要更改計時器類型嗎？",
+    "changeTypeMessage": "執行中的計時器將被停止。",
+    "resetConfirm": "要重置計時器嗎？",
+    "resetMessage": "目前的進度將會遺失。"
   },
   "settings": {
     "title": "設定",
@@ -56,5 +62,22 @@
     "zh": "中文（繁體）",
     "de": "Deutsch",
     "es": "Español"
+  },
+  "common": {
+    "ok": "確定",
+    "cancel": "取消",
+    "yes": "是",
+    "no": "否",
+    "confirm": "確認",
+    "error": "錯誤",
+    "success": "成功",
+    "loading": "載入中...",
+    "retry": "重試"
+  },
+  "error": {
+    "title": "錯誤",
+    "default": "發生錯誤",
+    "network": "發生網路錯誤",
+    "storage": "儲存資料失敗"
   }
 }

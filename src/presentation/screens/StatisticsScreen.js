@@ -7,7 +7,32 @@ export const StatisticsScreen = () => {
   const { t } = useTranslation();
   const { getStatistics } = useTimerStore();
   
-  const statistics = getStatistics();
+  let statistics;
+  try {
+    statistics = getStatistics();
+  } catch (error) {
+    console.error('統計データの取得に失敗しました:', error);
+    statistics = {
+      today: { count: 0, totalTime: 0 },
+      thisWeek: { count: 0, totalTime: 0 },
+      thisMonth: { count: 0, totalTime: 0 },
+      averageTime: 0,
+      streak: 0,
+      bestStreak: 0
+    };
+  }
+  
+  // 統計データが不正な場合のフォールバック
+  if (!statistics || typeof statistics !== 'object') {
+    statistics = {
+      today: { count: 0, totalTime: 0 },
+      thisWeek: { count: 0, totalTime: 0 },
+      thisMonth: { count: 0, totalTime: 0 },
+      averageTime: 0,
+      streak: 0,
+      bestStreak: 0
+    };
+  }
 
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);

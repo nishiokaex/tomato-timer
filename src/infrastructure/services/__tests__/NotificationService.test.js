@@ -1,20 +1,5 @@
 import { getNotificationService } from '../NotificationService';
 
-// Expo Notificationsのモック
-jest.mock('expo-notifications', () => ({
-  requestPermissionsAsync: jest.fn(() => Promise.resolve({ status: 'granted' })),
-  getPermissionsAsync: jest.fn(() => Promise.resolve({ status: 'granted' })),
-  scheduleNotificationAsync: jest.fn(() => Promise.resolve('notification-id')),
-  cancelScheduledNotificationAsync: jest.fn(() => Promise.resolve()),
-  setNotificationHandler: jest.fn(),
-  DEFAULT_SOUND: 'default',
-  AndroidImportance: {
-    HIGH: 'high'
-  },
-  AndroidNotificationVisibility: {
-    PUBLIC: 'public'
-  }
-}));
 
 // Platformのモック
 jest.mock('react-native', () => ({

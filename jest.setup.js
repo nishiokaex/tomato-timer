@@ -1,9 +1,9 @@
-// Jest設定ファイル
+// Jest設定ファイル - jest-expo用
 
 // React Native非同期操作のモック
 jest.useFakeTimers();
 
-// AsyncStorageのモック
+// AsyncStorageのモック（jest-expoで提供されないため独自に設定）
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(() => Promise.resolve(null)),
   setItem: jest.fn(() => Promise.resolve()),
@@ -20,9 +20,19 @@ jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({
     navigate: jest.fn(),
     goBack: jest.fn(),
+    setOptions: jest.fn(),
   }),
   useRoute: () => ({
     params: {},
+  }),
+  NavigationContainer: ({ children }) => children,
+}));
+
+// Bottom Tab Navigatorのモック
+jest.mock('@react-navigation/bottom-tabs', () => ({
+  createBottomTabNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
   }),
 }));
 
@@ -47,28 +57,9 @@ jest.mock('react-i18next', () => ({
       language: 'ja',
     },
   }),
-}));
-
-// React Native Web コンポーネントのモック
-jest.mock('react-native', () => ({
-  View: 'View',
-  Text: 'Text',
-  ScrollView: 'ScrollView',
-  TouchableOpacity: 'TouchableOpacity',
-  StyleSheet: {
-    create: (styles) => styles,
-  },
-  Platform: {
-    OS: 'web',
+  initReactI18next: {
+    type: '3rdParty',
+    init: jest.fn(),
   },
 }));
 
-// Expo StatusBarのモック
-jest.doMock('expo-status-bar', () => ({
-  StatusBar: 'StatusBar',
-}), { virtual: true });
-
-// Safe Area Contextのモック
-jest.doMock('react-native-safe-area-context', () => ({
-  SafeAreaProvider: ({ children }) => children,
-}), { virtual: true });

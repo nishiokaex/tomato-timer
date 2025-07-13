@@ -21,25 +21,13 @@ jest.mock('../../stores/TimerStore', () => ({
   useTimerStore: () => mockUseTimerStore
 }));
 
-// useTranslationのモック
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => key,
-    i18n: { changeLanguage: jest.fn() }
-  })
-}));
 
-// React Navigationのモック
+// テスト固有のナビゲーションモック
 const mockNavigation = {
   navigate: jest.fn(),
   goBack: jest.fn(),
   setOptions: jest.fn()
 };
-
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => mockNavigation,
-  useRoute: () => ({ params: {} })
-}));
 
 // SettingsScreenのモック実装
 const SettingsScreen = () => 'SettingsScreen';

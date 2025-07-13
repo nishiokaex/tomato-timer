@@ -1,11 +1,6 @@
 import React from 'react';
 import { AppNavigator } from '../AppNavigator';
 
-// React Navigationのモック
-jest.mock('@react-navigation/native', () => ({
-  NavigationContainer: ({ children }) => children,
-  createNavigationContainerRef: () => ({ current: null })
-}));
 
 jest.mock('@react-navigation/bottom-tabs', () => ({
   createBottomTabNavigator: () => ({
@@ -34,19 +29,6 @@ jest.mock('react-icons/md', () => ({
   MdBarChart: () => 'MdBarChart'
 }));
 
-// useTranslationのモック
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        'navigation.timer': 'タイマー',
-        'navigation.statistics': '統計',
-        'navigation.settings': '設定'
-      };
-      return translations[key] || key;
-    }
-  })
-}));
 
 describe('AppNavigator', () => {
   beforeEach(() => {

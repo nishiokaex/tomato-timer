@@ -2,19 +2,6 @@ import React from 'react';
 import { TimerTypeSelector } from '../TimerTypeSelector';
 import { TimerType } from '../../../domain/entities/Timer';
 
-// useTranslationのモック
-jest.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key) => {
-      const translations = {
-        'timer.pomodoro': 'ポモドーロ',
-        'timer.shortBreak': '短い休憩',
-        'timer.longBreak': '長い休憩'
-      };
-      return translations[key] || key;
-    }
-  })
-}));
 
 describe('TimerTypeSelector', () => {
   const mockProps = {

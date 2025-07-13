@@ -1,29 +1,6 @@
 import React from 'react';
 import App from '../App';
 
-// React Nativeコンポーネントのモック
-jest.mock('react-native', () => ({
-  View: 'View',
-  Text: 'Text',
-  ScrollView: 'ScrollView',
-  TouchableOpacity: 'TouchableOpacity',
-  StyleSheet: {
-    create: (styles) => styles,
-  },
-  Platform: {
-    OS: 'web',
-  },
-}));
-
-// 必要なモックを設定
-jest.mock('expo-status-bar', () => ({
-  StatusBar: () => 'StatusBar'
-}));
-
-jest.mock('react-native-safe-area-context', () => ({
-  SafeAreaProvider: ({ children }) => children
-}));
-
 // useTimerStoreのモック
 const mockLoadData = jest.fn(() => Promise.resolve());
 const mockSetError = jest.fn();
@@ -57,14 +34,6 @@ jest.mock('../src/presentation/components/ErrorBoundary', () => ({
 }));
 
 jest.mock('../src/presentation/locales/i18n', () => ({}));
-
-// React Nativeコンポーネントのモック
-jest.mock('react-native', () => ({
-  StyleSheet: {
-    create: (styles) => styles
-  },
-  View: ({ children }) => children
-}));
 
 describe('App', () => {
   beforeEach(() => {
