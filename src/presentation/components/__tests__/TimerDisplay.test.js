@@ -3,6 +3,13 @@ import { render } from '@testing-library/react-native';
 import { TimerDisplay } from '../TimerDisplay';
 import { Timer, TimerType, TimerStatus } from '../../../domain/entities/Timer';
 
+// react-i18nextのモック（jest.setup.jsで定義済み）
+// jest.mock('react-i18next', () => ({
+//   useTranslation: () => ({
+//     t: (key) => key,
+//   }),
+// }));
+
 
 describe('TimerDisplay', () => {
   const mockProps = {

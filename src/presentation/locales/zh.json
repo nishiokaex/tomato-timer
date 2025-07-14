@@ -56,6 +56,12 @@
     "timeToWork": "工作時間！",
     "timeToBreak": "休息時間！"
   },
+  "notification": {
+    "pomodoroCompleted": "番茄工作法完成！",
+    "breakCompleted": "休息完成！",
+    "timeToWork": "工作時間！",
+    "timeToBreak": "休息時間！"
+  },
   "languages": {
     "ja": "日本語",
     "en": "English",

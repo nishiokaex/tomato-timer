@@ -63,3 +63,26 @@ jest.mock('react-i18next', () => ({
   },
 }));
 
+// react-native-safe-area-contextのモック
+jest.mock('react-native-safe-area-context', () => ({
+  SafeAreaProvider: ({ children }) => children,
+  SafeAreaView: ({ children }) => children,
+  useSafeAreaInsets: () => ({
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }),
+  useSafeAreaFrame: () => ({
+    x: 0,
+    y: 0,
+    width: 375,
+    height: 812,
+  }),
+}));
+
+// React Native Testing Libraryはjest-expoに任せる
+
+// React Native AlertのグローバルモックをAlertの問題を回避するため
+// jest-expoに完全に任せ、必要に応じて個別のテストファイルでモック
+

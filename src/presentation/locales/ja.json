@@ -56,6 +56,12 @@
     "timeToWork": "作業時間です！",
     "timeToBreak": "休憩時間です！"
   },
+  "notification": {
+    "pomodoroCompleted": "ポモドーロが完了しました！",
+    "breakCompleted": "ブレイクが完了しました！",
+    "timeToWork": "作業時間です！",
+    "timeToBreak": "休憩時間です！"
+  },
   "languages": {
     "ja": "日本語",
     "en": "English",

@@ -56,6 +56,12 @@
     "timeToWork": "¡Hora de trabajar!",
     "timeToBreak": "¡Hora del descanso!"
   },
+  "notification": {
+    "pomodoroCompleted": "¡Pomodoro completado!",
+    "breakCompleted": "¡Descanso completado!",
+    "timeToWork": "¡Hora de trabajar!",
+    "timeToBreak": "¡Hora del descanso!"
+  },
   "languages": {
     "ja": "日本語",
     "en": "English",

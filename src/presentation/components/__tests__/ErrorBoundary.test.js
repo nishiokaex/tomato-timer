@@ -2,21 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import ErrorBoundary from '../ErrorBoundary';
 
-// React Native Componentのモック
-jest.mock('react-native', () => ({
-  View: ({ children, ...props }) => children,
-  Text: ({ children, ...props }) => children,
-  StyleSheet: {
-    create: (styles) => styles,
-  },
-}));
-
 // エラーを投げるコンポーネント
 const ErrorComponent = () => {
   throw new Error('Test error');
 };
 
-const ValidComponent = () => 'Valid component';
+const ValidComponent = () => React.createElement('Text', {}, 'Valid component');
 
 describe('ErrorBoundary', () => {
   beforeEach(() => {
@@ -65,6 +56,9 @@ describe('ErrorBoundary', () => {
       const error = new Error('Test error');
       const errorInfo = { componentStack: 'component stack' };
       
+      // console.errorのモックをクリア
+      console.error.mockClear();
+      
       errorBoundary.componentDidCatch(error, errorInfo);
       
       expect(console.error).toHaveBeenCalledWith('ErrorBoundary caught an error:', error, errorInfo);
@@ -107,15 +101,15 @@ describe('ErrorBoundary', () => {
   });
 
   describe('エラーバウンダリーの基本機能', () => {
-    test('エラーバウンダリーが関数として実行される', () => {
+    test('エラーバウンダリーが正常にレンダリングされる', () => {
       expect(() => {
-        ErrorBoundary({ children: 'test' });
+        render(<ErrorBoundary><div>test</div></ErrorBoundary>);
       }).not.toThrow();
     });
 
     test('エラーバウンダリーの結果が定義される', () => {
-      const result = ErrorBoundary({ children: 'test' });
-      expect(result).toBeDefined();
+      const rendered = render(<ErrorBoundary><div>test</div></ErrorBoundary>);
+      expect(rendered).toBeDefined();
     });
   });
 });
